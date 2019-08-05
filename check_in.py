@@ -42,6 +42,20 @@ class CheckIn:
         )
         return self._get_task_block(text, information)
 
+    # TODO: Add functionality for our questions
+    def _get_reaction_block(self):
+        task_checkmark = self._get_checkmark(self.reaction_task_completed)
+        text = (
+            f"{task_checkmark} *Add an emoji reaction to this message* :thinking_face:\n"
+            "You can quickly respond to any message on Slack with an emoji reaction."
+            "Reactions can be used for any purpose: voting, checking off to-do items, showing excitement."
+        )
+        information = (
+            ":information_source: *<https://get.slack.help/hc/en-us/articles/206870317-Emoji-reactions|"
+            "Learn How to Use Emoji Reactions>*"
+        )
+        return self._get_task_block(text, information)
+
     @staticmethod
     def _get_task_block(text, information):
         return [
