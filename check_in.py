@@ -20,7 +20,7 @@ class CheckIn:
                 "description": "I don't feel great today"
             }, {
                 "title": ":neutral_face:",
-                "description": "I feel ambivalent today"
+                "description": "I feel okay today"
             }, {
                 "title": ":simple_smile:",
                 "description": "I feel good today"
@@ -59,10 +59,10 @@ class CheckIn:
             blocks.append(CheckIn.format_text_block(f"That's all the questions we have for you today! See you next time :blush:\n"))
         else:
             if self.current_question == 0:
-                blocks.append(CheckIn.format_text_block(f"Good afternoon! We have {len(self.questions)} questions for you today.\n\n"))
+                blocks.append(CheckIn.format_text_block(f"Good afternoon! We have *{len(self.questions)} questions* for you today.\n\n"))
         
             current_question = self.questions[self.current_question]
-            text = f"Question number {self.current_question + 1}: {current_question['question']} \n\n" 
+            text = f"{self.current_question + 1}) {current_question['question']} \n\n" 
             blocks.append(CheckIn.format_text_block(text))
             blocks.append(CheckIn.format_question_block(current_question))
         print(blocks)
