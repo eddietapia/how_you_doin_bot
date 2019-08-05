@@ -50,6 +50,7 @@ class CheckIn:
             "channel": self.channel,
             "username": self.username,
             "icon_emoji": self.icon_emoji,
+            "text": "Tell us how you doin' today! :trumpet:",
             "blocks": self._get_question_block(),
         }
 
@@ -64,7 +65,7 @@ class CheckIn:
             current_question = self.questions[self.current_question]
             text = f"{self.current_question + 1}) {current_question['question']} \n\n" 
             blocks.append(CheckIn.format_text_block(text))
-            blocks.append(CheckIn.format_question_block(current_question))
+            blocks.append(CheckIn.format_question_block(current_question, self.current_question))
         return blocks
     
 
@@ -74,11 +75,12 @@ class CheckIn:
         return {"type": "section", "text": {"type": "mrkdwn", "text": text}}
 
     @staticmethod
-    def format_question_block(question_info):
+    def format_question_block(question_info, question_index):
         buttons = [CheckIn.format_response_option(r) for r in question_info["response_options"]]
         return {
             "type": "actions",
-            "elements": buttons
+            "elements": buttons,
+            "block_id": f"question-{question_index}"
         }
        
     
