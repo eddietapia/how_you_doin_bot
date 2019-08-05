@@ -14,19 +14,19 @@ class CheckIn:
             "question": "How are we feelin' emotionally today?",
             "response_options": [{
                 "title": ":cry:",
-                "description": "I feel terrible today"
+                "description": "I feel terrible"
             }, {
                 "title": ":slightly_frowning_face:",
-                "description": "I don't feel great today"
+                "description": "I don't feel great"
             }, {
                 "title": ":neutral_face:",
-                "description": "I feel okay today"
+                "description": "I feel okay"
             }, {
                 "title": ":simple_smile:",
-                "description": "I feel good today"
+                "description": "I feel good"
             }, {
                 "title": ":smile:",
-                "description": "I feel great today"
+                "description": "I feel great"
             }],
             "response": "",
             "ts": ""
@@ -65,7 +65,6 @@ class CheckIn:
             text = f"{self.current_question + 1}) {current_question['question']} \n\n" 
             blocks.append(CheckIn.format_text_block(text))
             blocks.append(CheckIn.format_question_block(current_question))
-        print(blocks)
         return blocks
     
 
