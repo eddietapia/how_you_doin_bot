@@ -16,8 +16,8 @@ from settings import SLACK_BOT_TOKEN
 
 # TODO: Connect to actual database. For now just store data in-memory
 check_in_sent = {}
-def start_checkin(web_client: slack.WebClient):
-    channels = get_dms(web_client)
+def start_checkin(slack_client: slack.WebClient):
+    channels = get_dms(slack_client)
 
     for channel in channels:
         # Create a new check-in
@@ -27,7 +27,7 @@ def start_checkin(web_client: slack.WebClient):
         message = check_in.get_message_payload()
 
         # Post the check-in message in Slack
-        response = web_client.chat_postMessage(**message)
+        response = slack_client.chat_postMessage(**message)
 
         # Capture the timestamp of the message we've just posted so
         # we can use it to update the message after a user

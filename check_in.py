@@ -1,9 +1,13 @@
+import random
+
 class CheckIn:
     """Performs the check in and records the state of the individual.
     
     A check in is composed of multiple questions, each which will (hopefully) garner
-    a response, in the form of a slack reaction.
+    a response.
     """
+
+    FUN_REACTS = [":dancingpanda:", ":dancing_corgi:", ":dancing_penguin:", ":party_docker:", ":tada:", ":fire:", ":popcorn_parrot:"]
 
     def __init__(self, channel):
         self.channel = channel
@@ -14,50 +18,58 @@ class CheckIn:
             "question": "How are we feelin' emotionally today?",
             "response_options": [{
                 "title": ":cry:",
-                "description": "I feel terrible"
+                "description": "Terrible"
             }, {
                 "title": ":slightly_frowning_face:",
-                "description": "I don't feel great"
+                "description": "Not great"
             }, {
                 "title": ":neutral_face:",
-                "description": "I feel okay"
+                "description": "Okay"
             }, {
                 "title": ":simple_smile:",
-                "description": "I feel good"
+                "description": "Good"
             }, {
                 "title": ":smile:",
-                "description": "I feel great"
+                "description": "Great!"
             }],
             "response": "",
             "ts": ""
         }, {
            "question": "How are we feelin' energetically today?",
            "response_options": [{
-                "title": ":one:",
-                "description": "I feel terrible"
+                "title": ":thumbsdown:",
+                "description": "Low energy"
             }, {
-                "title": ":two:",
-                "description": "I feel amazing"
+                "title": ":neutral_face:",
+                "description": "In-between"
+            }, {
+                "title": ":thumbsup:",
+                "description": "High energy!"
             }],
            "response": "",
            "ts": ""
         }]
-        self.current_question = 0
+        self.current_question = 2
     
     def get_message_payload(self):
+        if self.current_question < len(self.questions):
+            notif_text = self.questions[self.current_question]["question"]
+        else:
+            notif_text = "That's all we have for today! See you next time!"
+
         return {
             "ts": self.timestamp,
             "channel": self.channel,
             "username": self.username,
             "icon_emoji": self.icon_emoji,
-            "text": "Tell us how you doin' today! :trumpet:",
+            "text": notif_text,
             "blocks": self._get_question_block(),
         }
 
     def _get_question_block(self):
         blocks = []
         if self.current_question >= len(self.questions):
-            blocks.append(CheckIn.format_text_block(f"That's all the questions we have for you today! See you next time :blush:\n"))
+            blocks.append(CheckIn.format_text_block(f"That's all the questions we have for you today! See you next time {random.choice(self.FUN_REACTS)}\n"))
         else:
             if self.current_question == 0:
                 blocks.append(CheckIn.format_text_block(f"Good afternoon! We have *{len(self.questions)} questions* for you today.\n\n"))
