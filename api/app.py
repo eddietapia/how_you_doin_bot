@@ -55,4 +55,5 @@ def api_all():
         print(request.form)
 
 
-app.run()
+if __name__ == '__main__':
+    app.run()
