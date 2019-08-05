@@ -1,4 +1,12 @@
-slackclient>=2.0.0
-certifi
-schedule
-time
+aiohttp==3.5.4
+async-timeout==3.0.1
+attrs==19.1.0
+certifi==2019.6.16
+chardet==3.0.4
+idna==2.8
+multidict==4.5.2
+python-dotenv==0.10.3
+schedule==0.6.0
+slack==0.0.2
+slackclient==2.1.0
+yarl==1.3.0
