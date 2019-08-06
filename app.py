@@ -79,36 +79,55 @@ def api_all():
         payload = json.loads(request.form['payload'])
         print(payload)
 
-        message_timestamp = float(payload['message']['ts'])
-        message_datetime = datetime.datetime.fromtimestamp(message_timestamp)
-        action_timestamp = float(payload['actions'][0]['action_ts'])
-        action_datetime = datetime.datetime.fromtimestamp(action_timestamp)
+        if payload['actions'][0]['block_id'] == 'feedback': # Leaving feedback
+            dialog = {
+                "title": "Leave Feedback",
+                "submit_label": "Submit",
+                "elements": [{
+                    "label": "Feedback",
+                    "name": "feedback",
+                    "type": "textarea",
+                    "hint": "Let us know how you're feeling!"
+                }, {
+                    "label": "Associate your feedback with a channel",
+                    "name": "feedback_channel",
+                    "type": "select",
+                    "data_source": "channels"
+                }]
+            }
+            response_data = {"dialog": json.dumps(dialog)}
 
-        # Should only log event if it's within 24 hours of initial message.
-        if ((action_datetime - message_datetime).total_seconds() / 3600) >= 24:
-            return abort(400)
+        else: # Selecting emotion / energy response
+            message_timestamp = float(payload['message']['ts'])
+            message_datetime = datetime.datetime.fromtimestamp(message_timestamp)
+            action_timestamp = float(payload['actions'][0]['action_ts'])
+            action_datetime = datetime.datetime.fromtimestamp(action_timestamp)
 
-        user_id = payload['user']['id']
-        question_id = payload['actions'][0]['block_id']
-        response_value = payload['actions'][0]['action_id']
+            # Should only log event if it's within 24 hours of initial message.
+            if ((action_datetime - message_datetime).total_seconds() / 3600) >= 24:
+                return abort(400)
 
-        if user_id not in table:
-            table[user_id] = {}
-        if question_id not in table[user_id]:
-            table[user_id][question_id] = {}
+            user_id = payload['user']['id']
+            question_id = payload['actions'][0]['block_id']
+            response_value = payload['actions'][0]['action_id']
 
-        message_date = str(message_datetime.date())
-        table[user_id][question_id][message_date] = { "value": response_value }
+            if user_id not in table:
+                table[user_id] = {}
+            if question_id not in table[user_id]:
+                table[user_id][question_id] = {}
 
-        user_name = payload['user']['username']
-        print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {message_date}")
+            message_date = str(message_datetime.date())
+            table[user_id][question_id][message_date] = { "value": response_value }
+
+            user_name = payload['user']['username']
+            print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {message_date}")
+
+            selected_text = payload['actions'][0]['text']['text']
+            response_data = {'text': f':white_check_mark: Marked your response as {selected_text}. Thanks!\n\n', 'replace_original': True}
 
         response_url = payload['response_url']
-        selected_text = payload['actions'][0]['text']['text']
-        response_data = {'text': f':white_check_mark: Marked your response as {selected_text}. Thanks!\n\n', 'replace_original': True}
         response_headers = {'Content-type': 'application/json'}
         requests.post(response_url, json=response_data, headers=response_headers)
-
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
 
