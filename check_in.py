@@ -52,42 +52,35 @@ class CheckIn:
            "response": "",
            "ts": ""
         }]
-        self.current_question = 0
     
-    def get_message_payload(self):
-        if self.current_question < len(self.questions):
-            notif_text = self.questions[self.current_question]["question"]
-        else:
-            notif_text = "That's all we have for today! See you next time!"
+    def get_messages(self):
+        messages = []
 
+        welcome_text = f"Good afternoon! We have *{len(self.questions)} questions* for you today.\n\n"
+        messages.append(self.get_message_payload(CheckIn.format_text_block(welcome_text)))
+        
+        for i, question in enumerate(self.questions):
+            messages.append(self.get_message_payload(self._get_question_blocks(i)))
+        return messages
+    
+    def get_message_payload(self, block):
+        if not isinstance(block, list):
+            block = [block]
         return {
             "ts": self.timestamp,
             "channel": self.channel,
             "username": self.username,
             "icon_emoji": self.icon_emoji,
-            "text": notif_text,
-            "blocks": self._get_question_block(),
-        }
-
-    def get_welcome_message_payload(self):
-        welcome_text = f"Good afternoon! We have *{len(self.questions)} questions* for you today.\n\n"
-        return {
-           "ts": self.timestamp,
-            "channel": self.channel,
-            "username": self.username,
-            "icon_emoji": self.icon_emoji,
-            "text": welcome_text
+            "text": "",
+            "blocks": block,
         }
         
-    def _get_question_block(self):
+    def _get_question_blocks(self, question_index):
         blocks = []
-        if self.current_question >= len(self.questions):
-            blocks.append(CheckIn.format_text_block(f"That's all the questions we have for you today! See you next time {random.choice(self.FUN_REACTS)}\n"))
-        else:
-            current_question = self.questions[self.current_question]
-            text = f"{self.current_question + 1}) {current_question['question']} \n\n" 
-            blocks.append(CheckIn.format_text_block(text))
-            blocks.append(CheckIn.format_question_block(current_question))
+        current_question = self.questions[question_index]
+        text = f"{question_index + 1}) {current_question['question']} \n\n" 
+        blocks.append(CheckIn.format_text_block(text))
+        blocks.append(CheckIn.format_question_block(current_question))
         return blocks
     
 

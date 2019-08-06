@@ -105,7 +105,7 @@ def api_all():
 
         response_url = payload['response_url']
         selected_text = payload['actions'][0]['text']['text']
-        response_data = {'text': f':white_check_mark: Marked your response as {selected_text}.', 'replace_original': True}
+        response_data = {'text': f':white_check_mark: Marked your response as {selected_text}. Thanks!\n\n', 'replace_original': True}
         response_headers = {'Content-type': 'application/json'}
         requests.post(response_url, json=response_data, headers=response_headers)
 
