@@ -121,7 +121,7 @@ def api_all():
         # response_data = {'replace_original': True, 'blocks': json.dumps(updated_blocks)
 
         response_url = payload['response_url']
-        response_data = {'replace_original': True, 'blocks': json.dumps(updated_blocks)}
+        response_data = {'replace_original': True, 'style': 'primary'}
         response_headers = {'Content-type': 'application/json'}
         requests.post(response_url, json=response_data, headers=response_headers)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
