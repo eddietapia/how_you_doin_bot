@@ -100,7 +100,7 @@ def api_all():
 
             feedback = slack_client.api_call(
                 "dialog.open",
-                "dialog": dialog
+                dialog=dialog
             )
 
             print(feedback)
