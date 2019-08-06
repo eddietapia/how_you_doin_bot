@@ -54,6 +54,7 @@ def api_all():
     elif request.method == 'POST':
         payload = json.loads(request.form['payload'])
         record = {}
+        return jsonify(success=True)
 
 
 if __name__ == '__main__':
