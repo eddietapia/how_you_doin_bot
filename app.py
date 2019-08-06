@@ -7,9 +7,10 @@ Purpose: Flask backend for our slackbot
 """
 
 import flask
+from flask import request, jsonify
 import json
 import datetime
-from flask import request, jsonify
+import requests
 
 # Create our test data
 table = {
@@ -101,8 +102,11 @@ def api_all():
         user_name = payload['user']['username']
         print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {message_date}")
 
-        # return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
-        return jsonify(success=True)
+        response_url = payload['response_url']
+        response_data = {'replace_original': 'true', 'text': 'Noted!'}
+        requests.post(response_url, data=response_data)
+        # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        # return jsonify(success=True)
 
 
 if __name__ == '__main__':
