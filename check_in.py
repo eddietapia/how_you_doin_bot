@@ -61,6 +61,8 @@ class CheckIn:
         
         for i, question in enumerate(self.questions):
             messages.append(self.get_message_payload(self._get_question_blocks(i)))
+
+        messages.append(self.get_message_payload(self._get_feedback_blocks()))
         return messages
     
     def get_message_payload(self, block):
@@ -82,6 +84,39 @@ class CheckIn:
         blocks.append(CheckIn.format_text_block(text))
         blocks.append(CheckIn.format_question_block(current_question))
         return blocks
+    
+    def _get_feedback_blocks(self):
+        text = {
+            "type": "section",
+            "text": {
+                "type": "plain_text",
+                "text": "Let us know more about your experience today — leave us some feedback!",
+                "emoji": True
+            }
+        }
+        divider_block = {
+            "type": "divider"
+        }
+
+        feedback_block = {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Leave Feedback",
+                        "emoji": True
+                    },
+                    "value": "feedback",
+                    "action_id": "feedback",
+                    "style": "primary"
+                }
+            ],
+            "block_id": "feedback"
+        }
+
+        return [divider_block, text, feedback_block]
     
 
     # BLOCK FORMATTING METHODS
