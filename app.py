@@ -99,7 +99,7 @@ def api_all():
         table[user_id][question_id][message_date] = { "value": response_value }
 
         user_name = payload['user']['username']
-        print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {date}")
+        print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {message_date}")
 
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
         return jsonify(success=True)
