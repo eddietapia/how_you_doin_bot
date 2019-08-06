@@ -104,7 +104,8 @@ def api_all():
 
         response_url = payload['response_url']
         response_data = {'replace_original': 'true', 'text': 'Noted!'}
-        requests.post(response_url, data=response_data)
+        response_headers = {'Content-type': 'application/json'}
+        requests.post(response_url, json=response_data, headers=response_headers)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
 
