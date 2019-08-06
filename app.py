@@ -115,12 +115,11 @@ def api_all():
                         # Alter block
                         element['style'] = 'primary'
                         found = True
-                        break
                     else:
                         element['style'] = 'default'
                 if found:
                     break
-        response_data['replace_original'] = True
+        response_data['replace_original'] = "true"
 
         print(response_data)
         print(requests.post(response_url, json=response_data, headers=response_headers))
