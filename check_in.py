@@ -17,6 +17,7 @@ class CheckIn:
         self.timestamp = ""
         self.questions = [{
             "question": "How are we feelin' emotionally today?",
+            "value": "emotion",
             "response_options": [{
                 "title": ":cry:",
                 "description": "Terrible"
@@ -37,6 +38,7 @@ class CheckIn:
             "ts": ""
         }, {
            "question": "How are we feelin' energetically today?",
+           "value": "energy",
            "response_options": [{
                 "title": ":thumbsdown:",
                 "description": "Low energy"
@@ -78,7 +80,7 @@ class CheckIn:
             current_question = self.questions[self.current_question]
             text = f"{self.current_question + 1}) {current_question['question']} \n\n" 
             blocks.append(CheckIn.format_text_block(text))
-            blocks.append(CheckIn.format_question_block(current_question, self.current_question))
+            blocks.append(CheckIn.format_question_block(current_question))
         return blocks
     
 
@@ -88,12 +90,12 @@ class CheckIn:
         return {"type": "section", "text": {"type": "mrkdwn", "text": text}}
 
     @staticmethod
-    def format_question_block(question_info, question_index):
+    def format_question_block(question_info):
         buttons = [CheckIn.format_response_option(r, i) for i, r in enumerate(question_info["response_options"])]
         return {
             "type": "actions",
             "elements": buttons,
-            "block_id": f"question-{question_index}-{datetime.datetime.now():%Y-%m-%d}"
+            "block_id": question_info["value"]
         }
        
     
@@ -106,6 +108,6 @@ class CheckIn:
                 "text": f"{response_option['title']} {response_option['description']}",
                 "emoji": True
             },
-            "value": response_option['title'],
+            "value": str(response_index + 1),
             "action_id": str(response_index + 1)
         }
