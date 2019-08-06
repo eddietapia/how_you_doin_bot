@@ -113,6 +113,7 @@ def api_all():
                 for element in block['elements']:
                     if element['action_id'] == response_value:
                         # Alter block
+                        print("UPDATINGGGG")
                         element['style'] = 'primary'
                         found_button = True
                     else:
