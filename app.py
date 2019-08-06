@@ -119,7 +119,8 @@ def api_all():
                         element['style'] = 'default'
                 if found_button:
                     break
-        response_data = {'replace_original': True, 'blocks': json.dumps(updated_blocks)}
+        # response_data = {'replace_original': True, 'blocks': json.dumps(updated_blocks)}
+        response_data = { 'delete_original': True }
         print(response_data)
         print(requests.post(response_url, json=response_data, data=response_data, headers=response_headers).content)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
