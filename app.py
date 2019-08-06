@@ -84,6 +84,7 @@ def api_all():
 
         if payload['actions'][0]['block_id'] == 'feedback': # Leaving feedback
             dialog = {
+                "trigger_id": payload["trigger_id"]
                 "title": "Leave Feedback",
                 "submit_label": "Submit",
                 "elements": [{
