@@ -52,7 +52,13 @@ def api_all():
         return jsonify(results)
     elif request.method == 'POST':
         print('TODO. Send something back')
-        print(request.form)
+        print("PRINTING\n\n\n")
+        print('Args', request.args)
+        print('form', request.form)
+        print('json', request.json)
+        print('get json', request.get_json(force=True))
+        print("ENDDDDD\n\n\n")
+        #print(request.form)
 
 
 if __name__ == '__main__':
