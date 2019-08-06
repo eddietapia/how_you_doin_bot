@@ -8,6 +8,7 @@ Purpose: Flask backend for our slackbot
 
 import flask
 import json
+import datetime
 from flask import request, jsonify
 
 # Create our test data
@@ -75,7 +76,20 @@ def api_all():
         return jsonify(results)
     elif request.method == 'POST':
         payload = json.loads(request.form['payload'])
-        print(payload)
+        user_id = payload['user']['id']
+        user_name = payload['user']['username']
+        question_id = payload['actions']['block_id']
+        timestamp = float(payload['message']['ts'])
+        date = str(datetime.datetime.fromtimestamp(timestamp).date())
+        response_value = payload['actions']['value']
+
+        if not user_id in table:
+            table[user_id] = {}
+        if not question_id in table[user_id]:
+            table[user_id][question_id] = {}
+        table[user_id][question_id][date] = { "value": response_value }
+        print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {date}")
+
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
         return jsonify(success=True)
 
