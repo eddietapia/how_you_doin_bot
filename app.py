@@ -57,7 +57,7 @@ def api_all():
         print('Args', request.args)
         print('form', request.form)
         print('json', request.json)
-        print('form json', json.loads(request.form['payload']))
+        print('form json', json.dumps(json.loads(request.form['payload'])))
         print('get json', request.get_json(force=True))
         print("ENDDDDD\n\n\n")
         #print(request.form)
