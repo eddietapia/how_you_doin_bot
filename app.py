@@ -77,6 +77,7 @@ def api_all():
         return jsonify(results)
     elif request.method == 'POST':
         payload = json.loads(request.form['payload'])
+        print(payload)
 
         message_timestamp = float(payload['message']['ts'])
         message_datetime = datetime.datetime.fromtimestamp(message_timestamp)
@@ -89,7 +90,7 @@ def api_all():
 
         user_id = payload['user']['id']
         question_id = payload['actions'][0]['block_id']
-        response_value = payload['actions'][0]['value']
+        response_value = payload['actions'][0]['action_id']
 
         if user_id not in table:
             table[user_id] = {}
@@ -103,11 +104,13 @@ def api_all():
         print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {message_date}")
 
         response_url = payload['response_url']
-        response_data = {'replace_original': 'true', 'text': 'Noted!'}
-        requests.post(response_url, data=response_data)
+        selected_text = payload['actions'][0]['text']['text']
+        response_data = {'text': f':white_check_mark: Marked your response as {selected_text}. Thanks!\n\n', 'replace_original': True}
+        response_headers = {'Content-type': 'application/json'}
+        requests.post(response_url, json=response_data, headers=response_headers)
+
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
-
 
 if __name__ == '__main__':
     app.run()
