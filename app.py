@@ -123,7 +123,7 @@ def api_all():
         # response_data = {'replace_original': True, 'blocks': json.dumps(updated_blocks)}
         response_data = { 'text': 'helloooooo??' }
         print(response_data)
-        print(requests.post(response_url, data=response_data)
+        print(requests.post(response_url, data=response_data))
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
 
