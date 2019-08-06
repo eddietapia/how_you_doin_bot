@@ -120,6 +120,7 @@ def api_all():
                         element['style'] = 'default'
                 if found:
                     break
+        response_data['replace_original'] = True
 
         requests.post(response_url, json=response_data, headers=response_headers)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
