@@ -106,7 +106,7 @@ def api_all():
         response_data = {'replace_original': 'true', 'text': 'Noted!'}
         requests.post(response_url, data=response_data)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
-        # return jsonify(success=True)
+        return jsonify(success=True)
 
 
 if __name__ == '__main__':
