@@ -122,7 +122,7 @@ def api_all():
                     break
         response_data['replace_original'] = True
 
-        requests.post(response_url, json=response_data, headers=response_headers)
+        print(requests.post(response_url, json=response_data, headers=response_headers))
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
 
