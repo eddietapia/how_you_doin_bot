@@ -11,24 +11,46 @@ import json
 from flask import request, jsonify
 
 # Create our test data
-table = [
-    {
-        'user_id': 0,
-        'responses': {
-            'emotion': [5],
-            'energy': [3],
-            'timestamp': ['2019-08-05T13:49:49.684219'],
+table = {
+    # Emily
+    'UJKQZ1J4R': {
+        'emotion': {
+            '08-03-2019': {
+                'value': 3,
+            },
+            '08-04-2019': {
+                'value': 5,
+            }
+        },
+        'energy': {
+           '08-03-2019': {
+                'value': 2,
+            },
+            '08-04-2019': {
+                'value': 3,
+            } 
         }
     },
-    {
-        'user_id': 1,
-        'responses': {
-            'emotion': [5],
-            'energy': [3],
-            'timestamp': ['2019-08-05T13:50:23.935981'],
+    # Eddie
+    'UJENTFZ7C': {
+        'emotion': {
+            '08-03-2019': {
+                'value': 3,
+            },
+            '08-04-2019': {
+                'value': 5,
+            }
+        },
+        'energy': {
+           '08-03-2019': {
+                'value': 3,
+            },
+            '08-04-2019': {
+                'value': 1,
+            } 
         }
-    },
-]
+    }
+}
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -54,7 +76,6 @@ def api_all():
     elif request.method == 'POST':
         payload = json.loads(request.form['payload'])
         print(payload)
-        record = {}
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
         return jsonify(success=True)
 
