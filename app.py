@@ -104,7 +104,7 @@ def api_all():
         print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {message_date}")
 
         response_url = payload['response_url']
-        selected_text = payload['actions'][0]['text']
+        selected_text = payload['actions'][0]['text']['text']
         response_data = {'text': f':white_check_mark: Marked your response as {selected_text}.', 'replace_original': True}
         response_headers = {'Content-type': 'application/json'}
         requests.post(response_url, json=response_data, headers=response_headers)
