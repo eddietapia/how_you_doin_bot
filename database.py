@@ -1,5 +1,6 @@
 import os
 import psycopg2
+import pandas as pd
 
 DATABASE_URL = os.environ['DATABASE_URL']
 
@@ -13,14 +14,14 @@ print("You are connected to", record)
 
 def create_tables():
     """ create tables in the PostgreSQL database"""
-    commands = (
+    commands = [
         """
         CREATE TABLE users(
-            user_id INTEGER PRIMARY KEY NOT NULL,
-                block_id VARCHAR(255) NOT NULL,
-                    date VARCHAR(255) PRIMARY KEY NOT NULL,
-                        value INTEGER,
-                        feedback VARCHAR(255)
+            user_id INTEGER NOT NULL,
+            block_id VARCHAR(255) NOT NULL,
+            date VARCHAR(255) PRIMARY KEY NOT NULL,
+            value INTEGER,
+            feedback VARCHAR(255)
         )
         """,
         """
@@ -56,11 +57,17 @@ def create_tables():
                     REFERENCES parts (part_id)
                     ON UPDATE CASCADE ON DELETE CASCADE
         )
-        """)
-
+        """]
+    return commands
+commands = create_tables()
 for command in commands:
     print("EXECUTING")
-    #cursor.execute(command)
+    cursor.execute(command)
+
+my_table = pd.read_sql('select * from users', conn)
+my_table_2 = pd.read_sql('select * from vendor_parts', conn)
+print("TABLE 1\n", my_table)
+print("TABLE 2\n", my_table_2)
 
 # Closing database connection.
 if(conn):
