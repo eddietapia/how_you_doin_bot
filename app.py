@@ -52,15 +52,8 @@ def api_all():
                 results.append(user)
         return jsonify(results)
     elif request.method == 'POST':
-        print('TODO. Send something back')
-        print("PRINTING\n\n\n")
-        print('Args', request.args)
-        print('form', request.form)
-        print('json', request.json)
-        print('form json', json.dumps(json.loads(request.form['payload'])))
-        print('get json', request.get_json(force=True))
-        print("ENDDDDD\n\n\n")
-        #print(request.form)
+        payload = json.loads(request.form['payload'])
+        record = {}
 
 
 if __name__ == '__main__':

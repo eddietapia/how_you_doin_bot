@@ -1,4 +1,5 @@
 import random
+import datetime
 
 class CheckIn:
     """Performs the check in and records the state of the individual.
@@ -88,16 +89,16 @@ class CheckIn:
 
     @staticmethod
     def format_question_block(question_info, question_index):
-        buttons = [CheckIn.format_response_option(r) for r in question_info["response_options"]]
+        buttons = [CheckIn.format_response_option(r, i) for i, r in enumerate(question_info["response_options"])]
         return {
             "type": "actions",
             "elements": buttons,
-            "block_id": f"question-{question_index}"
+            "block_id": f"question-{question_index}-{datetime.datetime.now():%Y-%m-%d}"
         }
        
     
     @staticmethod
-    def format_response_option(response_option):
+    def format_response_option(response_option, response_index):
         return {
             "type": "button",
             "text": {
@@ -105,5 +106,6 @@ class CheckIn:
                 "text": f"{response_option['title']} {response_option['description']}",
                 "emoji": True
             },
-            "value": response_option['title']
+            "value": response_option['title'],
+            "action_id": str(response_index + 1)
         }

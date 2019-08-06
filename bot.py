@@ -57,7 +57,7 @@ if __name__ == "__main__":
     slack_client = slack.WebClient(slack_token)
 
     # schedule.every().day.at("14:00").do(lambda: start_checkin(slack_client, "", all_dms))
-    schedule.every(30).seconds.do(lambda: start_checkin(slack_client))
+    schedule.every(5).seconds.do(lambda: start_checkin(slack_client))
 
     print("Starting...")
     while True:
