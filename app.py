@@ -90,7 +90,7 @@ def api_all():
 
         user_id = payload['user']['id']
         question_id = payload['actions'][0]['block_id']
-        response_value = payload['actions'][0]['value']
+        response_value = payload['actions'][0]['action_id']
 
         if user_id not in table:
             table[user_id] = {}
@@ -111,7 +111,7 @@ def api_all():
             if block['block_id'] == question_id:
                 found = False
                 for element in block['elements']:
-                    if element['value'] == response_value:
+                    if element['action_id'] == response_value:
                         # Alter block
                         element['style'] = 'primary'
                         found = True
@@ -122,6 +122,7 @@ def api_all():
                     break
         response_data['replace_original'] = True
 
+        print(response_data)
         print(requests.post(response_url, json=response_data, headers=response_headers))
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
