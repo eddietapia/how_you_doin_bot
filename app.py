@@ -99,8 +99,10 @@ def api_all():
                 }]
             }
 
+            trigger_id = payload['trigger_id']
             feedback = slack_client.api_call(
                 "dialog.open",
+                trigger_id=trigger_id,
                 dialog=dialog
             )
 
