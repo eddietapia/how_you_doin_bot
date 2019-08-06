@@ -11,6 +11,9 @@ import json
 from flask import request, jsonify
 
 # Create our test data
+table = {
+    0: 
+}
 table = [
     {
         'user_id': 0,
@@ -53,6 +56,7 @@ def api_all():
         return jsonify(results)
     elif request.method == 'POST':
         payload = json.loads(request.form['payload'])
+        print(payload)
         record = {}
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
         return jsonify(success=True)
