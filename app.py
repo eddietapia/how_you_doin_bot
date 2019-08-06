@@ -76,18 +76,29 @@ def api_all():
         return jsonify(results)
     elif request.method == 'POST':
         payload = json.loads(request.form['payload'])
+
+        message_timestamp = float(payload['message']['ts'])
+        message_datetime = datetime.datetime.fromtimestamp(message_timestamp)
+        action_timestamp = float(payload['actions'][0]['action_ts'])
+        action_datetime = datetime.datetime.fromtimestamp(action_timestamp)
+
+        # Should only log event if it's within 24 hours of initial message.
+        if ((action_datetime - message_datetime).total_seconds() / 3600) >= 24:
+            return abort(400)
+
         user_id = payload['user']['id']
-        user_name = payload['user']['username']
         question_id = payload['actions'][0]['block_id']
-        timestamp = float(payload['message']['ts'])
-        date = str(datetime.datetime.fromtimestamp(timestamp).date())
         response_value = payload['actions'][0]['value']
 
         if not user_id in table:
             table[user_id] = {}
         if not question_id in table[user_id]:
             table[user_id][question_id] = {}
-        table[user_id][question_id][date] = { "value": response_value }
+
+        message_date = str(message_datetime.date())
+        table[user_id][question_id][message_date] = { "value": response_value }
+
+        user_name = payload['user']['username']
         print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {date}")
 
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
