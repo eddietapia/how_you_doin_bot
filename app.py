@@ -7,12 +7,13 @@ Purpose: Flask backend for our slackbot
 """
 
 import flask
+import json
 from flask import request, jsonify
 
 # Create our test data
 table = [
     {
-        'id': 0,
+        'user_id': 0,
         'responses': {
             'emotion': [5],
             'energy': [3],
@@ -20,7 +21,7 @@ table = [
         }
     },
     {
-        'id': 1,
+        'user_id': 1,
         'responses': {
             'emotion': [5],
             'energy': [3],
@@ -56,6 +57,7 @@ def api_all():
         print('Args', request.args)
         print('form', request.form)
         print('json', request.json)
+        print('form json', json.loads(request.form['payload']))
         print('get json', request.get_json(force=True))
         print("ENDDDDD\n\n\n")
         #print(request.form)
