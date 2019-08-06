@@ -105,21 +105,21 @@ def api_all():
 
         response_url = payload['response_url']
         response_headers = {'Content-type': 'application/json'}
-        # updated_blocks = payload['message']['blocks']
-        # # Alter response_data to highlight selected button.
-        # for block in updated_blocks:
-        #     if block['block_id'] == question_id:
-        #         found_button = False
-        #         for element in block['elements']:
-        #             if element['action_id'] == response_value:
-        #                 # Alter block
-        #                 element['style'] = 'primary'
-        #                 found_button = True
-        #             else:
-        #                 element['style'] = 'default'
-        #         if found_button:
-        #             break
-        response_data = {'replace_original': True, 'style': 'primary'}
+        updated_blocks = payload['message']['blocks']
+        # Alter response_data to highlight selected button.
+        for block in updated_blocks:
+            if block['block_id'] == question_id:
+                found_button = False
+                for element in block['elements']:
+                    if element['action_id'] == response_value:
+                        # Alter block
+                        element['style'] = 'primary'
+                        found_button = True
+                    else:
+                        element['style'] = 'default'
+                if found_button:
+                    break
+        response_data = {'replace_original': True, 'blocks': json.dumps(updated_blocks)}
         print(response_data)
         print(requests.post(response_url, json=response_data, data=response_data, headers=response_headers).content)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
