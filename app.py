@@ -11,6 +11,7 @@ from flask import request, jsonify
 import json
 import datetime
 import requests
+from settings import SLACK_BOT_TOKEN 
 
 # Create our test data
 table = {
