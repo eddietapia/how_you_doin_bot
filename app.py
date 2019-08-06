@@ -77,6 +77,7 @@ def api_all():
         return jsonify(results)
     elif request.method == 'POST':
         payload = json.loads(request.form['payload'])
+        print(payload)
 
         message_timestamp = float(payload['message']['ts'])
         message_datetime = datetime.datetime.fromtimestamp(message_timestamp)
