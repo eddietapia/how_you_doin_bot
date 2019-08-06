@@ -104,8 +104,23 @@ def api_all():
         print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {message_date}")
 
         response_url = payload['response_url']
-        response_data = {'replace_original': 'true', 'text': 'Noted!'}
         response_headers = {'Content-type': 'application/json'}
+        response_data = payload['message']
+        # Alter response_data to highlight selected button.
+        for block in response_data['blocks']:
+            if block['block_id'] == question_id:
+                found = False
+                for element in block['elements']:
+                    if element['value'] == response_value:
+                        # Alter block
+                        element['style'] = 'primary'
+                        found = True
+                        break
+                    else:
+                        element['style'] = 'default'
+                if found:
+                    break
+
         requests.post(response_url, json=response_data, headers=response_headers)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
