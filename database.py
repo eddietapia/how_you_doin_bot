@@ -15,6 +15,15 @@ def create_tables():
     """ create tables in the PostgreSQL database"""
     commands = (
         """
+        CREATE TABLE users(
+            user_id INTEGER PRIMARY KEY NOT NULL,
+                block_id VARCHAR(255) NOT NULL,
+                    date VARCHAR(255) PRIMARY KEY NOT NULL,
+                        value INTEGER,
+                        feedback VARCHAR(255)
+        )
+        """,
+        """
         CREATE TABLE vendors (
             vendor_id SERIAL PRIMARY KEY,
             vendor_name VARCHAR(255) NOT NULL
