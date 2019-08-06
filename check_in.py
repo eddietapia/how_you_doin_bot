@@ -49,7 +49,7 @@ class CheckIn:
            "response": "",
            "ts": ""
         }]
-        self.current_question = 2
+        self.current_question = 0
     
     def get_message_payload(self):
         if self.current_question < len(self.questions):
