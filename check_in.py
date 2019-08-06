@@ -69,14 +69,21 @@ class CheckIn:
             "blocks": self._get_question_block(),
         }
 
+    def get_welcome_message_payload(self):
+        welcome_text = f"Good afternoon! We have *{len(self.questions)} questions* for you today.\n\n"
+        return {
+           "ts": self.timestamp,
+            "channel": self.channel,
+            "username": self.username,
+            "icon_emoji": self.icon_emoji,
+            "text": welcome_text
+        }
+        
     def _get_question_block(self):
         blocks = []
         if self.current_question >= len(self.questions):
             blocks.append(CheckIn.format_text_block(f"That's all the questions we have for you today! See you next time {random.choice(self.FUN_REACTS)}\n"))
         else:
-            if self.current_question == 0:
-                blocks.append(CheckIn.format_text_block(f"Good afternoon! We have *{len(self.questions)} questions* for you today.\n\n"))
-        
             current_question = self.questions[self.current_question]
             text = f"{self.current_question + 1}) {current_question['question']} \n\n" 
             blocks.append(CheckIn.format_text_block(text))

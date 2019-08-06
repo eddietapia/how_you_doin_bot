@@ -23,10 +23,12 @@ def start_checkin(slack_client: slack.WebClient):
         # Create a new check-in
         check_in = CheckIn(channel)
 
+        # Send initial message
+        initial_message = check_in.get_welcome_message_payload()
+        slack_client.chat_postMessage(**initial_message)
+
         # Get the check-in message payload
         message = check_in.get_message_payload()
-
-        # Post the check-in message in Slack
         response = slack_client.chat_postMessage(**message)
 
         # Capture the timestamp of the message we've just posted so
