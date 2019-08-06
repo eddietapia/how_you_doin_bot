@@ -95,7 +95,7 @@ def api_all():
                     "data_source": "channels"
                 }]
             }
-            response_data = {"dialog": json.dumps(dialog)}
+            response_data = {"dialog": dialog}
 
         else: # Selecting emotion / energy response
             message_timestamp = float(payload['message']['ts'])
