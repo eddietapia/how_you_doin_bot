@@ -91,9 +91,9 @@ def api_all():
         question_id = payload['actions'][0]['block_id']
         response_value = payload['actions'][0]['value']
 
-        if not user_id in table:
+        if user_id not in table:
             table[user_id] = {}
-        if not question_id in table[user_id]:
+        if question_id not in table[user_id]:
             table[user_id][question_id] = {}
 
         message_date = str(message_datetime.date())
