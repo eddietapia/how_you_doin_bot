@@ -103,11 +103,7 @@ def api_all():
             }
 
             trigger_id = payload['trigger_id']
-            feedback = slack_client.api_call(
-                "dialog.open",
-                dialog=dialog
-            )
-
+            feedback = slack_client.dialog_open(dialog=dialog, trigger_id=trigger_id)
             print(feedback)
 
         else: # Selecting emotion / energy response
