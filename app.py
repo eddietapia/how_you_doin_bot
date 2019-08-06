@@ -103,8 +103,6 @@ def api_all():
         user_name = payload['user']['username']
         print(f"Updated user {user_name}'s data with response {response_value} to question {question_id} on {message_date}")
 
-        response_url = payload['response_url']
-        response_headers = {'Content-type': 'application/json'}
         updated_blocks = payload['message']['blocks']
         # Alter response_data to highlight selected button.
         for block in updated_blocks:
@@ -120,12 +118,20 @@ def api_all():
                         element['style'] = 'default'
                 if found_button:
                     break
-        # response_data = {'replace_original': True, 'blocks': json.dumps(updated_blocks)}
-        response_data = { 'text': 'helloooooo??' }
-        print(response_data)
-        print(requests.post(response_url, data=response_data))
+        # response_data = {'replace_original': True, 'blocks': json.dumps(updated_blocks)
+
+        response_url = payload['response_url']
+        response_data = {'replace_original': 'true', 'text': 'Noted!'}
+        response_headers = {'Content-type': 'application/json'}
+        requests.post(response_url, json=response_data, headers=response_headers)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
+
+        # response_data = { 'text': 'helloooooo??' }
+        # print(response_data)
+        # print(requests.post(response_url, data=response_data))
+        # # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        # return jsonify(success=True)
 
 
 if __name__ == '__main__':
