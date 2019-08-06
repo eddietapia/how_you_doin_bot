@@ -56,6 +56,8 @@ table = {
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+slack_token = SLACK_BOT_TOKEN
+slack_client = slack.WebClient(slack_token)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -95,7 +97,13 @@ def api_all():
                     "data_source": "channels"
                 }]
             }
-            response_data = {"dialog": dialog}
+
+            feedback = slack_client.api_call(
+                "dialog.open",
+                "dialog": dialog
+            )
+
+            print(feedback)
 
         else: # Selecting emotion / energy response
             message_timestamp = float(payload['message']['ts'])
@@ -125,10 +133,9 @@ def api_all():
             selected_text = payload['actions'][0]['text']['text']
             response_data = {'text': f':white_check_mark: Marked your response as {selected_text}. Thanks!\n\n', 'replace_original': True}
 
-        response_url = payload['response_url']
-        response_headers = {'Content-type': 'application/json'}
-        response = requests.post(response_url, json=response_data, headers=response_headers)
-        print(response)
+            response_url = payload['response_url']
+            response_headers = {'Content-type': 'application/json'}
+            response = requests.post(response_url, json=response_data, headers=response_headers)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
 
