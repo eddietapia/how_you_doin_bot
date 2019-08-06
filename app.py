@@ -11,9 +11,6 @@ import json
 from flask import request, jsonify
 
 # Create our test data
-table = {
-    0: 
-}
 table = [
     {
         'user_id': 0,
