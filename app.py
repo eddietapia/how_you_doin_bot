@@ -78,10 +78,10 @@ def api_all():
         payload = json.loads(request.form['payload'])
         user_id = payload['user']['id']
         user_name = payload['user']['username']
-        question_id = payload['actions']['block_id']
+        question_id = payload['actions'][0]['block_id']
         timestamp = float(payload['message']['ts'])
         date = str(datetime.datetime.fromtimestamp(timestamp).date())
-        response_value = payload['actions']['value']
+        response_value = payload['actions'][0]['value']
 
         if not user_id in table:
             table[user_id] = {}
