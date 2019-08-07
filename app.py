@@ -100,7 +100,7 @@ def api_all():
                     "data_source": "channels"
                 }]
             }
-            response_data = { "token": SLACK_BOT_TOKEN, "trigger_id": payload['trigger_id'], dialog: dialog }
+            response_data = { "token": SLACK_BOT_TOKEN, "trigger_id": payload['trigger_id'], "dialog": dialog }
 
         else: # Selecting emotion / energy response
             message_timestamp = float(payload['message']['ts'])
