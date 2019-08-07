@@ -122,7 +122,7 @@ def api_all():
                 ]
             }
             response_url = 'https://slack.com/api/dialog.open'
-            response_data = { "trigger_id": payload['trigger_id'], "dialog": dialog }
+            response_data = { "trigger_id": payload['trigger_id'], "dialog": dialog,  "token": slack_token }
 
         else: # Selecting emotion / energy response
             message_timestamp = float(payload['message']['ts'])
@@ -153,7 +153,7 @@ def api_all():
             response_data = {'text': f':white_check_mark: Marked your response as {selected_text}. Thanks!\n\n', 'replace_original': True}
 
         response = requests.post(response_url, json=response_data, headers=response_headers)
-        print(response)
+        print(response.text)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
 
