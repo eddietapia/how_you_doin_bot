@@ -12,7 +12,7 @@ import json
 import datetime
 import requests
 import slack
-from settings import SLACK_BOT_TOKEN 
+from settings import SLACK_BOT_TOKEN, AUTH_ACCESS_TOKEN
 
 # Create our test data
 table = {
@@ -120,8 +120,8 @@ def api_all():
                 ]
             }
             response_url = 'https://slack.com/api/dialog.open'
-            response_data = { "trigger_id": payload['trigger_id'], "dialog": dialog, "token": slack_token }
-            response_headers = {'Content-type': 'application/json; charset=utf-8', 'Authorization': f"Bearer {slack_token}"}
+            response_data = { "trigger_id": payload['trigger_id'], "dialog": dialog }
+            response_headers = {'Content-type': 'application/json; charset=utf-8', 'Authorization': f"Bearer {AUTH_ACCESS_TOKEN}"}
             response = requests.post(response_url, json.dumps(response_data), headers=response_headers)
 
         else: # Selecting emotion / energy response
