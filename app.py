@@ -83,6 +83,9 @@ def api_all():
         payload = json.loads(request.form['payload'])
         print(payload)
 
+        response_url = payload['response_url']
+        response_headers = {'Content-type': 'application/json'}
+
         if payload['actions'][0]['block_id'] == 'feedback':  # Leaving feedback
             dialog = {
                 "callback_id": "feedback_response",
@@ -100,6 +103,7 @@ def api_all():
                     "data_source": "channels"
                 }]
             }
+            response_url = 'https://slack.com/api/dialog.open'
             response_data = { "token": SLACK_BOT_TOKEN, "trigger_id": payload['trigger_id'], "dialog": dialog }
 
         else: # Selecting emotion / energy response
@@ -130,8 +134,6 @@ def api_all():
             selected_text = payload['actions'][0]['text']['text']
             response_data = {'text': f':white_check_mark: Marked your response as {selected_text}. Thanks!\n\n', 'replace_original': True}
 
-        response_url = payload['response_url']
-        response_headers = {'Content-type': 'application/json'}
         response = requests.post(response_url, json=response_data, headers=response_headers)
         print(response)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
