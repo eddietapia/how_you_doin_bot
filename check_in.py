@@ -62,7 +62,7 @@ class CheckIn:
         for i, question in enumerate(self.questions):
             messages.append(self.get_message_payload(self._get_question_blocks(i)))
 
-        messages.append(self.get_message_payload(self._get_feedback_blocks()))
+        # messages.append(self.get_message_payload(self._get_feedback_blocks()))
         return messages
     
     def get_message_payload(self, block):
