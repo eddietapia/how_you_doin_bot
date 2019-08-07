@@ -86,6 +86,7 @@ def api_all():
         if payload['actions'][0]['block_id'] == 'feedback': # Leaving feedback
             dialog = {
                 "callback_id": "feedback_response",
+                "trigger_id": payload['trigger_id'],
                 "title": "Leave Feedback",
                 "submit_label": "Submit",
                 "elements": [{
@@ -100,10 +101,6 @@ def api_all():
                     "data_source": "channels"
                 }]
             }
-
-            trigger_id = payload['trigger_id']
-            feedback = slack_client.dialog_open(dialog=dialog, trigger_id=trigger_id)
-            print(feedback)
 
         else: # Selecting emotion / energy response
             message_timestamp = float(payload['message']['ts'])
@@ -133,9 +130,9 @@ def api_all():
             selected_text = payload['actions'][0]['text']['text']
             response_data = {'text': f':white_check_mark: Marked your response as {selected_text}. Thanks!\n\n', 'replace_original': True}
 
-            response_url = payload['response_url']
-            response_headers = {'Content-type': 'application/json'}
-            response = requests.post(response_url, json=response_data, headers=response_headers)
+        response_url = payload['response_url']
+        response_headers = {'Content-type': 'application/json'}
+        response = requests.post(response_url, json=response_data, headers=response_headers)
         # return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
         return jsonify(success=True)
 
