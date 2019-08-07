@@ -59,7 +59,6 @@ table = {
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 slack_token = SLACK_BOT_TOKEN
-slack_client = slack.WebClient(slack_token)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -84,27 +83,46 @@ def api_all():
         print(payload)
 
         response_url = payload['response_url']
-        response_headers = {'Content-type': 'application/json'}
+        response_headers = {'Content-type': 'application/json', 'Authorization': f"Bearer {slack_token}"}
 
         if payload['actions'][0]['block_id'] == 'feedback':  # Leaving feedback
+            # dialog = {
+            #     "callback_id": "feedback_response",
+            #     "title": "Leave Feedback",
+            #     "submit_label": "Submit",
+            #     "elements": [{
+            #         "label": "Feedback",
+            #         "name": "feedback",
+            #         "type": "textarea",
+            #         "hint": "Let us know how you're feeling!"
+            #     }, {
+            #         "label": "Associate your feedback with a channel",
+            #         "name": "feedback_channel",
+            #         "type": "select",
+            #         "data_source": "channels"
+            #     }]
+            # }
+
             dialog = {
-                "callback_id": "feedback_response",
-                "title": "Leave Feedback",
-                "submit_label": "Submit",
-                "elements": [{
-                    "label": "Feedback",
-                    "name": "feedback",
-                    "type": "textarea",
-                    "hint": "Let us know how you're feeling!"
-                }, {
-                    "label": "Associate your feedback with a channel",
-                    "name": "feedback_channel",
-                    "type": "select",
-                    "data_source": "channels"
-                }]
+                "callback_id": "ryde-46e2b0",
+                "title": "Request a Ride",
+                "submit_label": "Request",
+                "state": "Limo",
+                "elements": [
+                    {
+                    "type": "text",
+                    "label": "Pickup Location",
+                    "name": "loc_origin"
+                    },
+                    {
+                    "type": "text",
+                    "label": "Dropoff Location",
+                    "name": "loc_destination"
+                    }
+                ]
             }
             response_url = 'https://slack.com/api/dialog.open'
-            response_data = { "token": SLACK_BOT_TOKEN, "trigger_id": payload['trigger_id'], "dialog": dialog }
+            response_data = { "trigger_id": payload['trigger_id'], "dialog": dialog }
 
         else: # Selecting emotion / energy response
             message_timestamp = float(payload['message']['ts'])
