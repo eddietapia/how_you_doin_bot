@@ -83,7 +83,7 @@ def api_all():
         payload = json.loads(request.form['payload'])
         print(payload)
 
-        if payload['actions'][0]['block_id'] == 'feedback': # Leaving feedback
+        if payload['actions'][0]['block_id'] == 'feedback':  # Leaving feedback
             dialog = {
                 "callback_id": "feedback_response",
                 "trigger_id": payload['trigger_id'],
