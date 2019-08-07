@@ -86,7 +86,6 @@ def api_all():
         if payload['actions'][0]['block_id'] == 'feedback':  # Leaving feedback
             dialog = {
                 "callback_id": "feedback_response",
-                "trigger_id": payload['trigger_id'],
                 "title": "Leave Feedback",
                 "submit_label": "Submit",
                 "elements": [{
@@ -101,6 +100,7 @@ def api_all():
                     "data_source": "channels"
                 }]
             }
+            response_data = { "token": SLACK_BOT_TOKEN, "trigger_id": payload['trigger_id'], dialog: dialog }
 
         else: # Selecting emotion / energy response
             message_timestamp = float(payload['message']['ts'])
