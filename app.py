@@ -83,7 +83,7 @@ def api_all():
         print(payload)
 
         response_url = payload['response_url']
-        response_headers = {'Content-type': 'application/json', 'Authorization': f"Bearer {slack_token}"}
+        response_headers = {'Content-type': 'application/json; charset=utf-8', 'Authorization': f"Bearer {slack_token}"}
 
         if payload['actions'][0]['block_id'] == 'feedback':  # Leaving feedback
             # dialog = {
