@@ -83,7 +83,7 @@ def api_all():
         payload = json.loads(request.form['payload'])
         print(payload)
 
-        if payload['actions'][0]['block_id'] == 'feedback': # Leaving feedback
+        if payload['actions'][0]['block_id'] == 'feedback':  # Leaving feedback
             dialog = {
                 "callback_id": "feedback_response",
                 "title": "Leave Feedback",
@@ -100,10 +100,12 @@ def api_all():
                     "data_source": "channels"
                 }]
             }
-
-            trigger_id = payload['trigger_id']
-            feedback = slack_client.dialog_open(dialog=dialog, trigger_id=trigger_id)
-            print(feedback)
+            try:
+                trigger_id = payload['trigger_id']
+                feedback = slack_client.dialog_open(dialog=dialog, trigger_id=trigger_id)
+                print(feedback)
+            except Exception as e:
+                print("Error", e)
 
         else: # Selecting emotion / energy response
             message_timestamp = float(payload['message']['ts'])
