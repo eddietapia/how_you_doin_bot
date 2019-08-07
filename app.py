@@ -11,8 +11,8 @@ from flask import request, jsonify
 import json
 import datetime
 import requests
-import slack
-from settings import SLACK_BOT_TOKEN 
+from settings import SLACK_BOT_TOKEN
+from update_db import add_row
 
 # Create our test data
 table = {

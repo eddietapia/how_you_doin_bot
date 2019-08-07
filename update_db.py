@@ -5,7 +5,7 @@ import pandas as pd
 DATABASE_URL = os.environ['DATABASE_URL']
 
 
-def upload_response(response):
+def add_row(response):
     if not response or len(response) != 5:
         return 0
 
